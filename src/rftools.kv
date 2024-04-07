@@ -1,0 +1,115 @@
+#:kivy 2.3.0
+<RFTools>:
+    orientation: 'vertical'
+    ActionBar:
+        id: actionbar
+        ActionView:
+            ActionPrevious:
+                title: 'RF Tools'
+                on_press: screenmanager.current = 'Home'
+    ScreenManager:
+        id: screenmanager
+        Screen:
+            id: home_screen
+            name: 'Home'
+            GridLayout:
+                cols: 2
+                Button:
+                    text: 'Line Loss'
+                    on_press: screenmanager.current = 'Line Loss'
+                Button:
+                    text: 'Free Space Path Loss'
+                    on_press: screenmanager.current = 'Free Space Path Loss'
+                Button:
+                    text: 'Wavelength'
+                    on_press: screenmanager.current = 'Wavelength'
+                Button:
+                    text: 'Horizon Distance'
+                    on_press: screenmanager.current = 'Horizon Distance'
+                Button:
+                    text: 'Fresnel Zone'
+                    on_press: screenmanager.current = 'Fresnel Zone'
+                Button:
+                    text: 'Converters'
+                    on_press: screenmanager.current = 'Converters'
+        Screen:
+            id: lineloss_screen
+            name: 'Line Loss'
+            GridLayout:
+                cols: 1
+                Accordion:
+                    orientation: 'vertical'
+                    AccordionItem:
+                        title: 'Find K Value'
+                        GridLayout:
+                            cols: 2
+                            orientation: 'tb-lr'
+                            Label:
+                                text: 'Enter frequency:'
+                            TextInput:
+                                id: kval_freq
+                                multiline: False
+                                write_tab: False
+                            Label:
+                                text: 'Enter dB loss @ 100ft:'
+                            TextInput:
+                                id: kval_loss
+                                multiline: False
+                                write_tab: False
+                        Label:
+                            id: kvalue_result
+                            text: 'K Value = '
+                        Button:
+                            text: 'Calculate'
+                            on_press: kvalue_result.text = 'K Value = ' + str(root.find_kvalue(float(kval_loss.text), float(kval_freq.text)))
+                GridLayout:
+                    cols: 2
+                    Label:
+                        text: 'K Value:'
+                    TextInput:
+                        id: kval
+                        multiline: False
+                        write_tab: False
+                    Label:
+                        text: 'Cable Length (ft):'
+                    TextInput:
+                        id: cablelength
+                        multiline: False
+                        write_tab: False
+                    Label:
+                        text: 'Frequency (MHz):'
+                    TextInput:
+                        id: frequency
+                        multiline: False
+                        write_tab: False
+                Label:
+                    id: loss_label
+                    text: 'Loss = '
+                Button:
+                    text: 'Calculate'
+                    on_press: loss_label.text = 'Loss = ' + str(root.calculate_loss(float(kval.text), float(cablelength.text), float(frequency.text))) + 'dB'
+        Screen:
+            id: freespace_screen
+            name: 'Free Space Path Loss'
+            GridLayout:
+                cols: 1
+        Screen:
+            id: wavelength_screen
+            name: 'Wavelength'
+            GridLayout:
+                cols: 1
+        Screen:
+            id: horizon_screen
+            name: 'Horizon Distance'
+            GridLayout:
+                cols: 1
+        Screen:
+            id: fresnel_screen
+            name: 'Fresnel Zone'
+            GridLayout:
+                cols: 1
+        Screen:
+            id: converters_screen
+            name: 'Converters'
+            GridLayout:
+                cols: 1
